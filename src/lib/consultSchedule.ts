@@ -16,7 +16,12 @@ const MONTHS = [
   "Dec",
 ];
 
-export const COMMON_TIMEZONES = [
+export type TimeZoneOption = {
+  id: string;
+  label: string;
+};
+
+export const COMMON_TIMEZONES: TimeZoneOption[] = [
   { id: "America/Los_Angeles", label: "Pacific Time" },
   { id: "America/Denver", label: "Mountain Time" },
   { id: "America/Phoenix", label: "Arizona Time" },
@@ -25,7 +30,7 @@ export const COMMON_TIMEZONES = [
   { id: "America/Anchorage", label: "Alaska Time" },
   { id: "Pacific/Honolulu", label: "Hawaii Time" },
   { id: "UTC", label: "UTC" },
-] as const;
+];
 
 export type ViewSlot = {
   id: string;
@@ -238,8 +243,10 @@ export function uniqueDays(slots: ViewSlot[], limit = 14) {
   return days;
 }
 
-export function timezoneOptions(detected: string) {
-  const options = COMMON_TIMEZONES.map((zone) => ({ ...zone }));
+export function timezoneOptions(detected: string): TimeZoneOption[] {
+  const options: TimeZoneOption[] = COMMON_TIMEZONES.map((zone) => ({
+    ...zone,
+  }));
   if (!options.some((zone) => zone.id === detected)) {
     options.unshift({ id: detected, label: timeZoneDisplayName(detected) });
   }
